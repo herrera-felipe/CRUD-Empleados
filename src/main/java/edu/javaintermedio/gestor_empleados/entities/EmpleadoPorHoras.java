@@ -9,30 +9,27 @@ import javax.persistence.Entity;
  *
  * @author Felipe Herrera
  */
-
 // Mapeo de la clase
-@Entity // Clase a entidad
-@DiscriminatorValue(value = "EMPLEASDO_POR_HORAS") //Tipo empleado "POR HORAS"
-public class EmpleadoPorHoras extends Empleado implements Serializable{ // Interfaz serializable para persistir
+@Entity
+@DiscriminatorValue(value = "EMPLEASDO_POR_HORAS")
+public class EmpleadoPorHoras extends Empleado implements Serializable {
 
     @Column(name = "HORAS")
     private double horas;
-    
+
     @Column(name = "SUELDO")
     private double sueldo;
 
-    //constructor por defecto
     public EmpleadoPorHoras() {
+
     }
 
-    //constructor
     public EmpleadoPorHoras(long legajo, String nombre, String apellido, String ssn, double sueldo, double horas) {
         super(legajo, nombre, apellido, ssn);
         this.horas = horas;
         this.sueldo = sueldo;
     }
 
-    //getters y setters
     public double getHoras() {
         return horas;
     }
@@ -49,7 +46,6 @@ public class EmpleadoPorHoras extends Empleado implements Serializable{ // Inter
         this.sueldo = sueldo;
     }
 
-    //implemento del metodo abstracto
     @Override
     public double calcularIngresos() {
         if (getHoras() <= 40) {
@@ -59,12 +55,9 @@ public class EmpleadoPorHoras extends Empleado implements Serializable{ // Inter
         }
     }
 
-    
     @Override
     public String toString() {
-        return String.format("Empleado por horas: %s%n%s: $%,.2f; %s: %,.2f", super.toString(),"Sueldo por hora",getSueldo(),"horas trabajadas", getHoras());
+        return String.format("Empleado por horas: %s%n%s: $%,.2f; %s: %,.2f", super.toString(), "Sueldo por hora", getSueldo(), "horas trabajadas", getHoras());
     }
 
-
-    
 }

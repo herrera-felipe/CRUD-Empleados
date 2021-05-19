@@ -9,31 +9,27 @@ import javax.persistence.Entity;
  *
  * Felipe Herrera
  */
-
 // MAPEO DE LA CLASE
-@Entity // Clase como entidad
-@DiscriminatorValue(value = "EMPLEADO_POR_COMISION") // Tipo empleado "POR COMISION"
+@Entity
+@DiscriminatorValue(value = "EMPLEADO_POR_COMISION")
 public class EmpleadoPorComision extends Empleado implements Serializable {
 
-    //declaracion de variables
-    @Column(name = "TARIFA_COMISION") // Nombre columna
+    @Column(name = "TARIFA_COMISION")
     private double tarifaComision;
-    
-    @Column(name = "VENTAS_BRUTAS") // Nombre columna
+
+    @Column(name = "VENTAS_BRUTAS")
     private double ventasBrutas;
 
-    //constructor por defecto
     public EmpleadoPorComision() {
+
     }
 
-    //constructor
     public EmpleadoPorComision(long legajo, String nombre, String apellido, String ssn, double ventasBrutas, double tarifaComision) {
         super(legajo, nombre, apellido, ssn);
         this.tarifaComision = tarifaComision;
         this.ventasBrutas = ventasBrutas;
     }
 
-    //getter y setter
     public void setVentasBrutas(double ventasBrutas) {
         this.ventasBrutas = ventasBrutas;
     }
@@ -50,7 +46,6 @@ public class EmpleadoPorComision extends Empleado implements Serializable {
         return tarifaComision;
     }
 
-    //implemento del metodo abstracto
     @Override
     public double calcularIngresos() {
         return getTarifaComision() * getVentasBrutas();
@@ -58,9 +53,9 @@ public class EmpleadoPorComision extends Empleado implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("%s: %s%n%s: $%, .2f; %s: %.2f", 
-                "Empleado por comision",super.toString(),
+        return String.format("%s: %s%n%s: $%, .2f; %s: %.2f",
+                "Empleado por comision", super.toString(),
                 "ventas brutas", getVentasBrutas(),
-                "Tarifa Comision",getTarifaComision());
+                "Tarifa Comision", getTarifaComision());
     }
 }

@@ -15,118 +15,115 @@ import edu.javaintermedio.gestor_empleados.entities.EmpleadoAsalariado;
 /**
  * Clase service de empleado. Esta clase tiene la responsabilidad de manejar la
  * logica del negocio.
- * 
- * @author Gaston Cangemi
+ *
+ * @author Felipe Herrera
  *
  */
 public class EmpleadoService {
 
-	private EntityManagerFactory emf;
-	private EmpleadoDAO empDAO;
+    private EntityManagerFactory emf;
+    private EmpleadoDAO empDAO;
 
-	// Constructor por defecto donde iniciliazamos nuesta undad de persistencia
-	public EmpleadoService() {
-		super();
-		emf = Persistence.createEntityManagerFactory("up_h2");
-		empDAO = new EmpleadoDAO(emf);
-	}
+    // Constructor por defecto donde iniciliazamos nuesta unidad de persistencia
+    public EmpleadoService() {
+        super();
+        emf = Persistence.createEntityManagerFactory("up_h2");
+        empDAO = new EmpleadoDAO(emf);
+    }
 
-	/**
-	 * Metodo para guardar un empleado
-	 * 
-	 * @param empleado
-	 * @return
-	 */
-	public boolean guardar(Empleado empleado) {
+    /**
+     * Metodo para guardar un empleado
+     *
+     * @param empleado
+     * @return
+     */
+    public boolean guardar(Empleado empleado) {
 
-		try {
+        try {
 
-			empDAO.create(empleado);
-			System.out.println("Guardando Empleado:" + empleado.toString());
-			return true;
+            empDAO.create(empleado);
+            System.out.println("Guardando Empleado:" + empleado.toString());
+            return true;
 
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
 
-		return false;
+        return false;
 
-	}
+    }
 
-	/**
-	 * Metodo para buscar un empleado
-	 * 
-	 * @param legajo
-	 * @return
-	 * @throws NonexistentEntityException 
-	 */
-	public Empleado buscarEmpleado(long legajo) throws NonexistentEntityException {
-		
-		
-		EmpleadoAsalariado empA = new EmpleadoAsalariado();
-		// 3- Validar datos
-		if (legajo == empA.getLegajo()){
-				
-			return empDAO.findEmpleado(legajo);
-		}
-		else 
-		
-		
-		// 4- Llamada al Dao para buscar emp
-		empDAO.findEmpleado(legajo);
-		
-		return empDAO.findEmpleado(legajo);
-		
-	}
+    /**
+     * Metodo para buscar un empleado
+     *
+     * @param legajo
+     * @return
+     * @throws NonexistentEntityException
+     */
+    public Empleado buscarEmpleado(long legajo) throws NonexistentEntityException {
 
-	/**
-	 * Metodo para actualizar los datos de un empleado.
-	 * 
-	 * @param empleado
-	 * @return
-	 */
-	public Empleado editarEmpleado(Empleado empleado) {
+        EmpleadoAsalariado empA = new EmpleadoAsalariado();
+        // 3- Validar datos
+        if (legajo == empA.getLegajo()) {
 
-		try {
-			empDAO.edit(empleado);
-			return buscarEmpleado(empleado.getLegajo());
-		} catch (NonexistentEntityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
+            return empDAO.findEmpleado(legajo);
+        } else // 4- Llamada al Dao para buscar emp
+        {
+            empDAO.findEmpleado(legajo);
+        }
 
-	public boolean borrarEmpleado(long legajo) {
+        return empDAO.findEmpleado(legajo);
 
-		try {
-			empDAO.destroy(legajo);
-			return true;
+    }
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+    /**
+     * Metodo para actualizar los datos de un empleado.
+     *
+     * @param empleado
+     * @return
+     */
+    public Empleado editarEmpleado(Empleado empleado) {
 
-		return false;
-	}
+        try {
+            empDAO.edit(empleado);
+            return buscarEmpleado(empleado.getLegajo());
+        } catch (NonexistentEntityException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    }
 
-	/**
-	 * Metodo que devuelve los tipos de empleado para este caso simulamos que
-	 * los empleados son obtenidos de la base a partir de un Enum.
-	 * 
-	 * @return
-	 */
-	public List<String> getTiposEmpleados() {
-		List<String> tipos = new ArrayList<String>();
-		tipos.add(TipoEmpleado.EmpleadoAsalarido.name());
-		tipos.add(TipoEmpleado.EmpleadoBaseMasComision.name());
-		tipos.add(TipoEmpleado.EmpleadoPorComision.name());
-		tipos.add(TipoEmpleado.EmpleadoPorHora.name());
+    public boolean borrarEmpleado(long legajo) {
 
-		return tipos;
-	}
+        try {
+            empDAO.destroy(legajo);
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    /**
+     * Metodo que devuelve los tipos de empleado para este caso simulamos que
+     * los empleados son obtenidos de la base a partir de un Enum.
+     *
+     * @return
+     */
+    public List<String> getTiposEmpleados() {
+        List<String> tipos = new ArrayList<String>();
+        tipos.add(TipoEmpleado.EmpleadoAsalarido.name());
+        tipos.add(TipoEmpleado.EmpleadoBaseMasComision.name());
+        tipos.add(TipoEmpleado.EmpleadoPorComision.name());
+        tipos.add(TipoEmpleado.EmpleadoPorHora.name());
+
+        return tipos;
+    }
 
 }

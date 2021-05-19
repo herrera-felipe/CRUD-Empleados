@@ -5,41 +5,28 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
-
 /**
  *
- * @author Alumnos
+ * @author Felipe Herrera
  */
-
-
 // MAPEO DE LA CLASE
-@Entity // Definimos esta clase como una entidad
-@DiscriminatorValue(value = "EMPLEADO_ASALARIADO" ) // Tipo empleado en este caso "asalariado"
-public class EmpleadoAsalariado extends Empleado implements Serializable{  // interfaz serializable para persistir
+@Entity
+@DiscriminatorValue(value = "EMPLEADO_ASALARIADO")
+public class EmpleadoAsalariado extends Empleado implements Serializable {  // interfaz serializable para persistir
 
-    //declaracion de variables
-    
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	@Column(name = "SALARIO_SEMANAL")
+    private static final long serialVersionUID = 1L;
+
+    @Column(name = "SALARIO_SEMANAL")
     private double salarioSemanal;
-    
-    
 
-    // constructor por defecto
     public EmpleadoAsalariado() {
     }
-    
-    //constructor
+
     public EmpleadoAsalariado(long legajo, String nombre, String apellido, String ssn, double salarioSemanal) {
         super(legajo, nombre, apellido, ssn);
         this.salarioSemanal = salarioSemanal;
     }
 
-    //setter y getter
     public double getSalarioSemanal() {
         return salarioSemanal;
     }
@@ -48,7 +35,6 @@ public class EmpleadoAsalariado extends Empleado implements Serializable{  // in
         this.salarioSemanal = salarioSemanal;
     }
 
-    //implemento del metodo abstracto
     @Override
     public double calcularIngresos() {
         return getSalarioSemanal();
@@ -56,8 +42,7 @@ public class EmpleadoAsalariado extends Empleado implements Serializable{  // in
 
     @Override
     public String toString() {
-        return String.format("Empleado asalariado: %s%n%s: $%,.2f",super.toString(),"Salario semanal: ", getSalarioSemanal() );
+        return String.format("Empleado asalariado: %s%n%s: $%,.2f", super.toString(), "Salario semanal: ", getSalarioSemanal());
     }
-
 
 }

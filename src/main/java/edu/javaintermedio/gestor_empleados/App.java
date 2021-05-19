@@ -16,59 +16,52 @@ import edu.javaintermedio.gestor_empleados.entities.EmpleadoPorHoras;
  */
 public class App {
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
 
-		//----->EntityManagerFctory Base de datos Mysql<-----
+        //----->EntityManagerFctory Base de datos Mysql<-----
 //		EntityManagerFactory emf = Persistence.createEntityManagerFactory("up_mysql");
-		//----ENtityManager de la base de datos h2------
-		 EntityManagerFactory emf = Persistence.createEntityManagerFactory("up_h2");
 
-		// Instanciamos un EmpleadoDAO
-		EmpleadoDAO empDAO = new EmpleadoDAO(emf);
+        //----EntityManager de la base de datos h2------
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("up_h2");
 
-		// Creamos un EmpleadoAsalariado
-		EmpleadoAsalariado empAsalariado = new EmpleadoAsalariado(1589,
-				"Roberto", "Gomez", "123-889", 15000);
-		System.out.println("\nGuardando Empleado... " + empAsalariado.toString()); // Mostramos
-																					// por
-																					// pantalla
+        // Instanciamos un EmpleadoDAO
+        EmpleadoDAO empDAO = new EmpleadoDAO(emf);
 
-		// Creamos un EmpleadoPorHora
-		EmpleadoPorHoras empHoras = new EmpleadoPorHoras(1587, "Jorgelina",
-				"Rodriguez", "158-99-2", 70000, 15);
-		System.out.println("\nGuardando Empleado... " + empHoras.toString()); // Mostramos
-																			// por
-																			// pantalla
+        // Empleado Asalariado
+        EmpleadoAsalariado empAsalariado = new EmpleadoAsalariado(1589, "Roberto", "Gomez", "123-889", 15000);
+        System.out.println("\nGuardando Empleado... " + empAsalariado.toString());
 
-		// Creamos un EmpleadoPorComision
-		EmpleadoPorComision empPorComision = new EmpleadoPorComision(301,
-				"Karen", "Price", "444-565-88", 50000, .06);
-		System.out.println("\nGuardando Empleado... "
-				+ empPorComision.toString());
-		
-		// Crea un EmpleadoBaseMasComision
-		EmpleadoBaseMasComision empBaseMasComision = new EmpleadoBaseMasComision(1689, 
-				"Felipe", "Herrera", "222-445-67", 20.5, 60000, 45000);
-		System.out.println("\nGuardando Empleado... "
-				+ empBaseMasComision.toString());
+        // Empleado Por Hora
+        EmpleadoPorHoras empHoras = new EmpleadoPorHoras(1587, "Jorgelina", "Rodriguez", "158-99-2", 70000, 15);
+        System.out.println("\nGuardando Empleado... " + empHoras.toString());
 
-		try {
-			// Se crea EmpleadoAsalariado en la Base de datos
-			empDAO.create(empAsalariado);
-			// Se crea el EmpleadoPorHoras en la Base de datos
-			empDAO.create(empHoras);
-			// Se crea el EmpleadoPorComision en la Base de datos
-			empDAO.create(empPorComision);
-			// Se crea el EmpleadoBAseMasComision
-			empDAO.create(empBaseMasComision);
-			
-		} catch (PreexistingEntityException e) {
-			// MUESTRA LA PILA DE ERROR
-			e.printStackTrace();
-		} catch (Exception e) {
-			// MUESTRA LA PILA DE ERROR
-			e.printStackTrace();
-		}
+        // EmpleadoPorComision
+        EmpleadoPorComision empPorComision = new EmpleadoPorComision(301,
+                "Karen", "Price", "444-565-88", 50000, .06);
+        System.out.println("\nGuardando Empleado... "
+                + empPorComision.toString());
 
-	}
+        // Empleado Base Mas Comision
+        EmpleadoBaseMasComision empBaseMasComision = new EmpleadoBaseMasComision(1689,
+                "Felipe", "Herrera", "222-445-67", 20.5, 60000, 45000);
+        System.out.println("\nGuardando Empleado... "
+                + empBaseMasComision.toString());
+
+        try {
+            // Se crea EmpleadoAsalariado en la Base de datos
+            empDAO.create(empAsalariado);
+            // Se crea el EmpleadoPorHoras en la Base de datos
+            empDAO.create(empHoras);
+            // Se crea el EmpleadoPorComision en la Base de datos
+            empDAO.create(empPorComision);
+            // Se crea el EmpleadoBAseMasComision
+            empDAO.create(empBaseMasComision);
+
+        } catch (PreexistingEntityException e) {
+            e.printStackTrace(System.out);
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+
+    }
 }

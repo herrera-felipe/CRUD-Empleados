@@ -18,19 +18,17 @@ import javax.persistence.Table;
 
 
 // MAPEO DE LA CLASE
-@Entity // Le decimos que esta clase es una entidad
-@Table(name="EMPLEADOS") // El nombre que tendra la tabla
+@Entity 
+@Table(name="EMPLEADOS") 
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "TIPO_EMP") // Creamos una columna para el tipo de empleado
-public abstract  class Empleado implements  Serializable{ // Es importante implementar la interfaz Serializable para persistir
+@DiscriminatorColumn(name = "TIPO_EMP") 
+public abstract  class Empleado implements  Serializable{ 
    
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    
+    private static final long serialVersionUID = 1L;
 
-	@Id // Nos dice que sera el primal key (que no se puede repetir)
-    @Column(name = "LEGAJO") // Nombre de la columna
+    @Id 
+    @Column(name = "LEGAJO") 
     private long legajo;
     
     @Column(name = "NOMBRE") 
@@ -39,13 +37,12 @@ public abstract  class Empleado implements  Serializable{ // Es importante imple
     @Column(name = "APELLIDO") 
     private String apellido;
     
-    @Column(name = "SSN", nullable = false) // se crea una restriccion de que el valor ingresado no puede ser NULL (estar vacio)
+    @Column(name = "SSN", nullable = false) 
     private String ssn;
 
-    public Empleado() { // es importante tener el metodo constructor por defecto a la hora de mapear
+    public Empleado() { 
     }
     
-    //constructor
     public Empleado(long legajo, String nombre, String apellido, String ssn) {
         
         this.legajo = legajo;
@@ -54,10 +51,8 @@ public abstract  class Empleado implements  Serializable{ // Es importante imple
         this.ssn = ssn;
     }
     
-//    //metodo abstracto
     public abstract double calcularIngresos();
     
-    // setters y getters
     public long getLegajo() {
         return legajo;
     }

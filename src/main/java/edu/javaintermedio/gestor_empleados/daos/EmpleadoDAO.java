@@ -19,63 +19,56 @@ import edu.javaintermedio.gestor_empleados.daos.exceptions.PreexistingEntityExce
 import edu.javaintermedio.gestor_empleados.entities.Empleado;
 import edu.javaintermedio.gestor_empleados.entities.EmpleadoAsalariado;
 
-
 /**
  *
  * @author Felipe Herrera
  */
 public class EmpleadoDAO implements Serializable {
 
-	
+    private Connection con = null;
 
-   
-	private Connection con = null;
-	
- 	private static final long serialVersionUID = 1L;
- 	
- 	
+    private static final long serialVersionUID = 1L;
 
- 	public EmpleadoDAO(EntityManagerFactory emf) {
- 		
-         this.emf = emf;
-         
-         // ----> CONEXION MYSQL <----
+    public EmpleadoDAO(EntityManagerFactory emf) {
+
+        this.emf = emf;
+
+        // ----> CONEXION MYSQL <----
 //        String DRIVERJDBC = "com.mysql.jdbc.Driver";
 //        String URL = "jdbc:mysql://localhost:3306/empdb?serverTimezone=UTC";
 //        String USER = "root";
 //        String PASS = "root";
-         
-         // ---> CONEXION H2 <---
-           String URL_h2 = "jdbc:h2:mem:test";
-           String USER_h2 = "sa";
-           String PASS_h2 = "";
-           
-           try {
-               con = DriverManager.getConnection(URL_h2, USER_h2, PASS_h2);
-           } catch (SQLException se) {
-               System.out.println("Error obtaining connection with the database: " + se);
-               System.exit(-1);
-           }
-     }
- 	
- 	
- 	
- 	
-     private EntityManagerFactory emf = null;
 
-     public EntityManager getEntityManager() {
-         return emf.createEntityManager();
-     }
+        // ---> CONEXION H2 <---
+        String URL_h2 = "jdbc:h2:mem:test";
+        String USER_h2 = "sa";
+        String PASS_h2 = "";
+
+        try {
+            con = DriverManager.getConnection(URL_h2, USER_h2, PASS_h2);
+        } catch (SQLException se) {
+            System.out.println("Error obtaining connection with the database: " + se);
+            System.exit(-1);
+        }
+    }
+
+    private EntityManagerFactory emf = null;
+
+    public EntityManager getEntityManager() {
+        return emf.createEntityManager();
+    }
 
     /**
-     * Metodo para persistir un empleado en la base de datos.A nivel SQL seria un INSERT
+     * Metodo para persistir un empleado en la base de datos.A nivel SQL seria
+     * un INSERT
+     *
      * @param empleado
      * @throws PreexistingEntityException
      * @throws Exception
-    */
+     */
     public void create(Empleado empleado) throws PreexistingEntityException, Exception { // este metodo create espera un objeto empleado
         EntityManager em = null;
-        
+
         try {
             em = getEntityManager(); // Cuando se ejecuta este metodo, llama al EntityManager
             em.getTransaction().begin(); // a su vez crea una Transaccion 
@@ -92,12 +85,14 @@ public class EmpleadoDAO implements Serializable {
             }
         }
     }
-/**
- * Metodo para actualizar datos de un empleado, a nivel SQL seria un UPDATE
- * @param empleado
- * @throws NonexistentEntityException
- * @throws Exception 
- */
+
+    /**
+     * Metodo para actualizar datos de un empleado, a nivel SQL seria un UPDATE
+     *
+     * @param empleado
+     * @throws NonexistentEntityException
+     * @throws Exception
+     */
     public void edit(Empleado empleado) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
@@ -120,11 +115,13 @@ public class EmpleadoDAO implements Serializable {
             }
         }
     }
-    
+
     /**
-     * Borra un registro de empleado en base de datos, a nivel de SQL seria un DELETE
+     * Borra un registro de empleado en base de datos, a nivel de SQL seria un
+     * DELETE
+     *
      * @param id
-     * @throws NonexistentEntityException 
+     * @throws NonexistentEntityException
      */
     public void destroy(long id) throws NonexistentEntityException {
         EntityManager em = null;
@@ -170,35 +167,31 @@ public class EmpleadoDAO implements Serializable {
 //            em.close();
 //        }
 //    }
-
-    public Empleado findEmpleado(long id) throws NonexistentEntityException  {
+    
+    public Empleado findEmpleado(long id) throws NonexistentEntityException {
         EntityManager em = getEntityManager();
-        
+
         try (Statement stmt = con.createStatement()) {
-        	
-        	String query ="SELECT * FROM empleados WHERE legajo = " + id;
-        	ResultSet rs = stmt.executeQuery(query);
-        	
-        	if (!rs.next()) {
-        		return null;
-        	}
-        	//long legajo, String nombre, String apellido, String ssn, double salarioSemanal
-        	return (new EmpleadoAsalariado(rs.getLong("LEGAJO"), 
-        			rs.getString("NOMBRE"),
-        			rs.getString("APELLIDO"),
-        			rs.getString("SSN"),
-        			rs.getDouble("SALRAIO_SEMANAL")));
+
+            String query = "SELECT * FROM empleados WHERE legajo = " + id;
+            ResultSet rs = stmt.executeQuery(query);
+
+            if (!rs.next()) {
+                return null;
+            }
+            //long legajo, String nombre, String apellido, String ssn, double salarioSemanal
+            return (new EmpleadoAsalariado(rs.getLong("LEGAJO"),
+                    rs.getString("NOMBRE"),
+                    rs.getString("APELLIDO"),
+                    rs.getString("SSN"),
+                    rs.getDouble("SALRAIO_SEMANAL")));
         } catch (SQLException se) {
-            //se.printStackTrace();
+//            se.printStackTrace();
             throw new NonexistentEntityException("Error finding employee in DAO", se);
-        }
-        
-        finally {
+        } finally {
             em.close();
         }
     }
-    
-   
 
     public int getEmpleadoCount() {
         EntityManager em = getEntityManager();

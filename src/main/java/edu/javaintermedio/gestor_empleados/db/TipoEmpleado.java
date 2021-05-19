@@ -1,10 +1,10 @@
 package edu.javaintermedio.gestor_empleados.db;
 
 public enum TipoEmpleado {
-	
-	EmpleadoAsalarido,
+
+    EmpleadoAsalarido,
     EmpleadoBaseMasComision,
-	EmpleadoPorComision,
-	EmpleadoPorHora;
+    EmpleadoPorComision,
+    EmpleadoPorHora;
 
 }
